@@ -2,7 +2,9 @@
 import { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Web3 from 'web3';
+import Header from './components/header/Header'
 
 function App() {
 
@@ -20,8 +22,11 @@ function App() {
    }, []);
   return (
     <div>
-       Your account is: {account}
-     </div>
+      <Header></Header>
+      <div>
+        Your account is: {account}
+      </div>
+    </div>
   );
 }
 
