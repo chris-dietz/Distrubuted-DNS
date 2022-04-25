@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { Nav, Collapse, Navbar, NavbarBrand, NavItem, NavLink, Button } from "reactstrap";
 
-function renderMenuButton(navbarOpen, setNavbarOpen) {
+function ShowMenuButton(navbarOpen, setNavbarOpen) {
+   const [width, height] = useWindowSize();
    var menuBarAppearsAt = 768 // At a screen width of 768 or greater, the navBar remains open always (wide enough display)
-   if (window.innerWidth < menuBarAppearsAt) {
+   if (width < menuBarAppearsAt) {
       return (
          <Button onClick={() => setNavbarOpen(!navbarOpen)}>
+            {/* This hamburger menu SVG values is from the fontAwesome website */}
             <svg width={12} fill="#353535" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                <path d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 
                         0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 
@@ -16,6 +18,20 @@ function renderMenuButton(navbarOpen, setNavbarOpen) {
    }
 }
 
+// Code found at https://stackoverflow.com/questions/19014250/rerender-view-on-browser-resize-with-react
+function useWindowSize() {
+   const [size, setSize] = useState([0, 0]);
+   useLayoutEffect(() => {
+      function updateSize() {
+         setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener('resize', updateSize);
+      updateSize();
+      return () => window.removeEventListener('resize', updateSize);
+   }, []);
+   return size;
+}
+
 export default function NavigationBar(props) {
    const [navbarOpen, setNavbarOpen] = useState(false)
    return (
@@ -23,7 +39,7 @@ export default function NavigationBar(props) {
          <NavbarBrand>
             CSU Decentalized Domain Registrar
          </NavbarBrand >
-         {renderMenuButton(navbarOpen, setNavbarOpen)}
+         {ShowMenuButton(navbarOpen, setNavbarOpen)}
          <Collapse isOpen={navbarOpen} navbar>
             <Nav className="me-auto" navbar>
                <NavItem>
