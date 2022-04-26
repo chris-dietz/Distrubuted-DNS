@@ -1,7 +1,7 @@
-import {Input,Button} from "reactstrap"
+import {Input,Button,Form, FormFeedback, FormGroup} from "reactstrap"
 import ResultsPage from "./ResultsPage"
 import { useState } from "react"
-import { searchButtonText , testDomain, registrationFormValidationRegex} from "./Body-Constants"
+import { searchButtonText , testDomain, registrationFormValidationRegex,invalidDomainErrorMessage} from "./Body-Constants"
     
 export default function Search(props){
     const [showResults, setShowResults] = useState(false)
@@ -11,8 +11,13 @@ export default function Search(props){
     
     return (
     <div>
-        <Input invalid={invalidInput} type="search" placeholder={props.placeholder} onChange={(e) =>handleUserTyping(e.target.value)}></Input>
-        <Button onClick={handleButtonClick}>{searchButtonText}</Button>
+        <Form onSubmit={(e) => handleSearch(e)}>
+            <FormGroup>
+                <Input invalid={invalidInput} type="search" placeholder={props.placeholder} onChange={(e) =>handleUserTyping(e.target.value)}></Input>
+                <Button >{searchButtonText}</Button>
+                <FormFeedback invalid="true" >{invalidDomainErrorMessage}</FormFeedback>
+            </FormGroup>
+        </Form>
         { showResults ? <ResultsPage query={query} isDomainAvailable={domainAvailable} /> : null }
     </div>
     )
@@ -23,7 +28,8 @@ export default function Search(props){
         setInvalidInput(false)
     }
 
-    function handleButtonClick(){
+    function handleSearch(e){
+        e.preventDefault()
         if(validateInput(query)){
             setShowResults(true)
             setDomainAvaliable(isDomainAvailable(query))
