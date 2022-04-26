@@ -1,6 +1,6 @@
 import Header from "./components/header/Header"
 import Footer from "./components/Footer"
-import Body from "./components/Body"
+import Body from "./components/body/Body"
 export default function Page(props){
     return(
         <>
