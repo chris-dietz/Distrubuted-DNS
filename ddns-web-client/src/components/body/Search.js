@@ -14,9 +14,9 @@ export default function Search(props){
         <Form onSubmit={(e) => handleSearch(e)}>
             <FormGroup>
                 <Input invalid={invalidInput} type="search" placeholder={props.placeholder} onChange={(e) =>handleUserTyping(e.target.value)}></Input>
-                <Button >{searchButtonText}</Button>
                 <FormFeedback invalid="true" >{invalidDomainErrorMessage}</FormFeedback>
             </FormGroup>
+            <Button type="submit">{searchButtonText}</Button>
         </Form>
         { showResults ? <ResultsPage query={query} isDomainAvailable={domainAvailable} /> : null }
     </div>
@@ -24,8 +24,12 @@ export default function Search(props){
 
     function handleUserTyping(query){
         setQuery(query)
-        setShowResults(false)
-        setInvalidInput(false)
+        if(showResults){
+            setShowResults(false)
+        }
+        if(invalidInput){
+            setInvalidInput(false)
+        }
     }
 
     function handleSearch(e){
