@@ -1,0 +1,1 @@
+export const searchPlaceholderText = "Register a domain to start"
