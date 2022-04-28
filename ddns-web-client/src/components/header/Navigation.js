@@ -2,7 +2,7 @@ import React, { useState, useLayoutEffect } from "react";
 import { Nav, Collapse, Navbar, NavbarBrand, NavItem, NavLink, Button } from "reactstrap";
 
 function ShowMenuButton(navbarOpen, setNavbarOpen) {
-   const [width, height] = useWindowSize();
+   const [width] = useWindowSize();
    var menuBarAppearsAt = 768 // At a screen width of 768 or greater, the navBar remains open always (wide enough display)
    if (width < menuBarAppearsAt) {
       return (
