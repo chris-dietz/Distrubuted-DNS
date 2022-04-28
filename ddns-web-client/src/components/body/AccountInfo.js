@@ -24,7 +24,8 @@ function displayAccountInfo(account){
 function accountNotConnected(DDNSContract){
     return (
             <Alert color="danger">Wallet Not Connected
-            <Button onClick={DDNSContract.requestWalletConnection}>Connect</Button>
+            {'  '}
+            <Button  onClick={DDNSContract.requestWalletConnection}>Connect</Button>
             </Alert>
     )
 }
