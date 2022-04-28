@@ -1,7 +1,7 @@
 import { Input, Button, Form, FormFeedback, FormGroup } from "reactstrap"
 import ResultsPage from "./ResultsPage"
 import { useState } from "react"
-import { searchButtonText, testDomain, registrationFormValidationRegex, invalidDomainErrorMessage } from "./Body-Constants"
+import { testDomain, registrationFormValidationRegex, invalidDomainErrorMessage } from "./Body-Constants"
 
 
 export default function Search(props) {
@@ -16,7 +16,7 @@ export default function Search(props) {
                 <FormGroup>
                     <div className="sameLine">
                         <Input invalid={invalidInput} type="search" placeholder={props.placeholder} onChange={(e) => handleUserTyping(e.target.value)}></Input>
-                        <Button type="submit">{searchButtonText}</Button>
+                        <Button type="submit">{props.buttonText}</Button>
                     </div>
                     <FormFeedback invalid="true" >{invalidDomainErrorMessage}</FormFeedback>
                 </FormGroup>

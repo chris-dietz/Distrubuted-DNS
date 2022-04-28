@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers'
 import Search from './Search';
-import {searchRegiserPlaceholderText} from './Body-Constants'
+import { searchLookupButtonText, searchRegisterButtonText, searchRegisterPlaceholderText, searchLookupPlaceholderText } from './Body-Constants'
 export default function Body(props) {
     const [account, setAccount] = useState(); // state variable to set account.
   useEffect(() => {
@@ -30,11 +30,13 @@ function RenderPageBody() {
       // code block
       break;
     case "/lookup/":
-      // code block
-      break;
+      return (
+        <Search placeholder={searchLookupPlaceholderText} buttonText={searchLookupButtonText}></Search>
+      )
+      // break; // Unnneeded due to return
     default:
       return (
-        <Search placeholder={searchRegiserPlaceholderText}></Search>
+        <Search placeholder={searchRegisterPlaceholderText} buttonText={searchRegisterButtonText}></Search>
       )
   }
 }
