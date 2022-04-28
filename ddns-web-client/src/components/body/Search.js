@@ -1,7 +1,8 @@
-import { Input, Button, Form, FormFeedback, FormGroup, Row, Col } from "reactstrap"
+import { Input, Button, Form, FormFeedback, FormGroup } from "reactstrap"
 import ResultsPage from "./ResultsPage"
 import { useState } from "react"
 import { searchButtonText, testDomain, registrationFormValidationRegex, invalidDomainErrorMessage } from "./Body-Constants"
+
 
 export default function Search(props) {
     const [showResults, setShowResults] = useState(false)
@@ -10,22 +11,18 @@ export default function Search(props) {
     const [invalidInput, setInvalidInput] = useState(false)
 
     return (
-        <div>
+        <>
             <Form onSubmit={(e) => handleSearch(e)}>
-                <Row>
-                    <Col>
-                        <FormGroup>
-                            <Input invalid={invalidInput} type="search" placeholder={props.placeholder} onChange={(e) => handleUserTyping(e.target.value)}></Input>
-                            <FormFeedback invalid="true" >{invalidDomainErrorMessage}</FormFeedback>
-                        </FormGroup>
-                    </Col>
-                    <Col>
+                <FormGroup>
+                    <div className="sameLine">
+                        <Input invalid={invalidInput} type="search" placeholder={props.placeholder} onChange={(e) => handleUserTyping(e.target.value)}></Input>
                         <Button type="submit">{searchButtonText}</Button>
-                    </Col>
-                </Row>
+                    </div>
+                    <FormFeedback invalid="true" >{invalidDomainErrorMessage}</FormFeedback>
+                </FormGroup>
             </Form>
             {showResults ? <ResultsPage query={query} isDomainAvailable={domainAvailable} /> : null}
-        </div>
+        </>
     )
 
     function handleUserTyping(query) {
