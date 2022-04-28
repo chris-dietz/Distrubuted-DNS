@@ -1,4 +1,4 @@
-import { Button, Alert, Row, Col } from "reactstrap"
+import { Button, Alert} from "reactstrap"
 
 
 export default function AccountInfo(props){

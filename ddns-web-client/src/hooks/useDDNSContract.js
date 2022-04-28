@@ -1,4 +1,4 @@
-import { useState , useEffect,useMemo} from "react"
+import { useState , useEffect} from "react"
 import { ethers } from 'ethers'
 
 export function useDDNSContract(cAddress,userAccount=null){
@@ -23,7 +23,7 @@ export function useDDNSContract(cAddress,userAccount=null){
 
 function getWeb3Provider(){
     const gancheUrl = "http://localhost:8545"
-    if(typeof window.ethereum !== 'undefined'){
+    if(usingBrowserWallet()){
         return new ethers.providers.Web3Provider(window.ethereum)
     }
     else
@@ -31,6 +31,9 @@ function getWeb3Provider(){
 }
 
 async function isAccountConnected(provider) {
+    if(!usingBrowserWallet()){
+        return false
+    }
     const accounts = await provider.listAccounts()
     return accounts.length > 0;
 }
@@ -45,8 +48,13 @@ async function getUserAccount(provider,setAccount,setAccounts){
     }
 }
 
+function usingBrowserWallet(){
+    return typeof window.ethereum !== 'undefined'
+}
+
 async function requestWalletConnection(provider,setCurrentAccount,setAccounts){
-    let accounts = [""]
+
+    let accounts = [null]
     try{
          accounts = await provider.send("eth_requestAccounts")
     }
@@ -54,6 +62,9 @@ async function requestWalletConnection(provider,setCurrentAccount,setAccounts){
         console.warn("Warning: Failed to retrieve wallet address!")
         accounts = [null]
     }
-    setCurrentAccount(accounts[0])
-    setAccounts(accounts)
+    finally {
+        setCurrentAccount(accounts[0])
+        setAccounts(accounts)
+    }
+    
 }
