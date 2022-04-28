@@ -6,7 +6,7 @@ export default function AccountInfo(props){
     return (
         <div>
             {
-            DDNSContract.account !== null?
+            DDNSContract.currentAccount !== null?
           displayAccountInfo(DDNSContract.currentAccount): accountNotConnected(DDNSContract)
             }
         </div>

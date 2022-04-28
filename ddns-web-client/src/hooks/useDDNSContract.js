@@ -4,19 +4,21 @@ import { ethers } from 'ethers'
 export function useDDNSContract(cAddress,userAccount=null){
     const provider = getWeb3Provider()
     const [contractAddress,setContractAddress] = useState(cAddress)
-    const [account,setAccount] = useState(null)
-    let accountConnected = () =>{
-        isAccountConnected(provider)
-    } 
-    let connectToWallet = () =>{
-        requestWalletConnection(provider,setAccount)
-    }
+    const [currentAccount,setCurrentAccount] = useState(null)
+    const [accounts,setAccounts] = useState([])
     useEffect(() =>{
-        getUserAccount(provider,setAccount)
+        getUserAccount(provider,setCurrentAccount,setAccounts)
     },[provider])
-    
-
-    return {contractAddress,setContractAddress,account,setAccount,accountConnected,connectToWallet}
+    return {
+        contractAddress,
+        setContractAddress,
+        currentAccount: currentAccount,
+        setCurrentAccount: setCurrentAccount,
+        accounts,
+        setAccounts,
+        isAccountConnected: () =>{isAccountConnected(provider)},
+        requestWalletConnection: () => {requestWalletConnection(provider,setCurrentAccount,setAccounts)}
+    }
 }
 
 function getWeb3Provider(){
@@ -33,17 +35,17 @@ async function isAccountConnected(provider) {
     return accounts.length > 0;
 }
 
-async function getUserAccount(provider,setAccount){
+async function getUserAccount(provider,setAccount,setAccounts){
     let accountConnected = await isAccountConnected(provider)
     if(accountConnected){
-        requestWalletConnection(provider,setAccount)
+        requestWalletConnection(provider,setAccount,setAccounts)
     }
     else{
         setAccount(null)
     }
 }
 
-async function requestWalletConnection(provider,setAccount){
+async function requestWalletConnection(provider,setCurrentAccount,setAccounts){
     let accounts = [""]
     try{
          accounts = await provider.send("eth_requestAccounts")
@@ -52,5 +54,6 @@ async function requestWalletConnection(provider,setAccount){
         console.warn("Warning: Failed to retrieve wallet address!")
         accounts = [null]
     }
-    setAccount(accounts[0])
+    setCurrentAccount(accounts[0])
+    setAccounts(accounts)
 }
