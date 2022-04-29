@@ -7,13 +7,15 @@ export default function AccountInfo(props){
         <div>
             {
             DDNSContract.currentAccount !== null?
-          displayAccountInfo(DDNSContract.currentAccount): accountNotConnected(DDNSContract)
+          <DisplayAccountInfo DDNSContract={DDNSContract} ></DisplayAccountInfo>:
+           <AccountNotConnected DDNSContract={DDNSContract}></AccountNotConnected>
             }
         </div>
       )
 }
 
-function displayAccountInfo(account){
+function DisplayAccountInfo(props){
+    let account = props.DDNSContract.currentAccount
     return (
         <Alert color="success">
             Using account: {account}
@@ -21,7 +23,9 @@ function displayAccountInfo(account){
     )
 }
 
-function accountNotConnected(DDNSContract){
+
+function AccountNotConnected(props){
+    let DDNSContract = props.DDNSContract
     return (
             <Alert color="danger">Wallet Not Connected
             {'  '}
