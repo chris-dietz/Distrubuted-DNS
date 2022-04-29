@@ -1,15 +1,23 @@
 import { useState , useEffect} from "react"
 import { ethers } from 'ethers'
+import BlockchainDNS from '../abi/contracts/BlockchainDNS.json'
 
 export function useDDNSContract(cAddress,userAccount=null){
     const provider = getWeb3Provider()
     const [contractAddress,setContractAddress] = useState(cAddress)
     const [currentAccount,setCurrentAccount] = useState(null)
     const [accounts,setAccounts] = useState([])
+    const [contract,setContract] = useState(null)
     useEffect(() =>{
         getUserAccount(provider,setCurrentAccount,setAccounts)
     },[provider])
+
+    useEffect(() =>{
+        retrieveContract(provider,contractAddress,setContract)
+    },[contractAddress,provider])
+    
     return {
+        contract,
         contractAddress,
         setContractAddress,
         currentAccount: currentAccount,
@@ -19,6 +27,13 @@ export function useDDNSContract(cAddress,userAccount=null){
         isAccountConnected: () =>{isAccountConnected(provider)},
         requestWalletConnection: () => {requestWalletConnection(provider,setCurrentAccount,setAccounts)}
     }
+}
+
+
+async function retrieveContract(provider,contractAddress,setContract){
+    const signer = provider.getSigner()
+    let contract = await new ethers.Contract(contractAddress,BlockchainDNS.abi,signer)
+    setContract(contract)
 }
 
 function getWeb3Provider(){
