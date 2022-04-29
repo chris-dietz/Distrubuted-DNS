@@ -2,9 +2,9 @@ import { useState , useEffect} from "react"
 import { ethers } from 'ethers'
 import BlockchainDNS from '../abi/contracts/BlockchainDNS.json'
 
-export function useDDNSContract(cAddress,userAccount=null){
+export function useDDNSContract(networkIndex){
     const provider = getWeb3Provider()
-    const [contractAddress,setContractAddress] = useState(cAddress)
+    const [contractAddress,setContractAddress] = useState(retrieveContractAddress(networkIndex))
     const [currentAccount,setCurrentAccount] = useState(null)
     const [accounts,setAccounts] = useState([])
     const [contract,setContract] = useState(null)
@@ -29,6 +29,11 @@ export function useDDNSContract(cAddress,userAccount=null){
     }
 }
 
+//Retrieves network by the order it appears in the JSON file. 
+function retrieveContractAddress(networkIndex){
+    let networks = BlockchainDNS.networks
+    return networks[Object.keys(networks)[networkIndex]].address
+}
 
 async function retrieveContract(provider,contractAddress,setContract){
     const signer = provider.getSigner()
