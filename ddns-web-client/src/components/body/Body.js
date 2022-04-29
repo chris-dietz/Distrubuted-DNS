@@ -4,7 +4,7 @@ import Search from './Search';
 import { searchLookupButtonText, searchRegisterButtonText, searchRegisterPlaceholderText, searchLookupPlaceholderText } from './Body-Constants'
 import AccountInfo from './AccountInfo';
 export default function Body(props) {
-    const DDNSContract = useDDNSContract("0x28f61689Ac362b70e0d291A6c8bb618eD35cab45")
+    const DDNSContract = useDDNSContract(0) //Assumes first network in the config file, If you deploy to more than one network update this value. 
    return (
     <div>
       {RenderPageBody(DDNSContract)}
