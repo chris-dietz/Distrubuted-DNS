@@ -36,7 +36,7 @@ function retrieveContractAddress(networkIndex){
 }
 
 async function retrieveContract(provider,contractAddress,setContract){
-    const signer = provider.getSigner()
+    const signer = await provider.getSigner()
     let contract = await new ethers.Contract(contractAddress,BlockchainDNS.abi,signer)
     setContract(contract)
 }
