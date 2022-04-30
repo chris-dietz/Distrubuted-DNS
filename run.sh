@@ -15,11 +15,13 @@ USAGE
 while [ "$1" != "" ]; do
     case $1 in
     --install)
+        type -P './ganache-2.5.4-linux-x86_64.AppImage' &>/dev/null && echo "ganache already installed" || wget https://github.com/trufflesuite/ganache-ui/releases/download/v2.5.4/ganache-2.5.4-linux-x86_64.AppImage
+        chmod +x ganache-2.5.4-linux-x86_64.AppImage
+        ./ganache-2.5.4-linux-x86_64.AppImage &
         wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
         source ~/.bashrc
         nvm install node
         type -P truffle &>/dev/null && echo "Truffle already installed" || npm install -g truffle
-        wget https://github.com/trufflesuite/ganache-ui/releases/download/v2.5.4/ganache-2.5.4-linux-x86_64.AppImage
         ;;
     *)
         usage

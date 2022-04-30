@@ -60,7 +60,7 @@ async function isDomainAvailable(queryString,DDNSContract) {
     try{
         domainAvailable = await DDNSContract.contract.getIPAddress(queryString)
     }catch(e){
-        console.error("Failed to search for domain!")
+        console.error("Failed to search for domain! " + e)
     }
     finally{
         return domainAvailable === ""
