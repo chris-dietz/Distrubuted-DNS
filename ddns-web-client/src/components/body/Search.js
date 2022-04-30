@@ -1,7 +1,7 @@
 import { Input, Button, Form, FormFeedback, FormGroup } from "reactstrap"
 import ResultsPage from "./ResultsPage"
 import { useState } from "react"
-import { testDomain, registrationFormValidationRegex, invalidDomainErrorMessage } from "./Body-Constants"
+import { registrationFormValidationRegex, invalidDomainErrorMessage } from "./Body-Constants"
 
 
 export default function Search(props) {
