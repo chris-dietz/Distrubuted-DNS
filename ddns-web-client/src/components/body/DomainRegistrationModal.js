@@ -13,7 +13,7 @@ export default function DomainRegisterationModal(props){
       <Button variant="primary" onClick={handleShow}>
         Register
       </Button>
-      
+
       <Modal isOpen={show} toggle={toggle}>
       <Form onSubmit={(e) => handleFormSubmit(e)}>
         <ModalHeader>
@@ -38,6 +38,7 @@ export default function DomainRegisterationModal(props){
 
   function handleUserTyping(ip){
       setIpAddress(ip)
+      setInvalidInput(false)
   }
 
   function handleFormSubmit(e){
