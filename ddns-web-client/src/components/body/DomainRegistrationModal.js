@@ -16,7 +16,8 @@ export default function DomainRegisterationModal(props){
 
       <Modal isOpen={show} toggle={toggle}>
       <Form onSubmit={(e) => handleFormSubmit(e)}>
-        <ModalHeader>
+        <ModalHeader toggle={toggle}>
+            
           <div>Register {props.domain}</div>
         </ModalHeader>
         <ModalBody>
