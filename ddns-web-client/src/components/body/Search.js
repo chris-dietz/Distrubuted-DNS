@@ -1,7 +1,7 @@
 import { Input, Button, Form, FormFeedback, FormGroup } from "reactstrap"
 import ResultsPage from "./ResultsPage"
 import { useState } from "react"
-import { testDomain, registrationFormValidationRegex, invalidDomainErrorMessage } from "./Body-Constants"
+import { registrationFormValidationRegex, invalidDomainErrorMessage } from "./Body-Constants"
 
 
 export default function Search(props) {
@@ -35,11 +35,11 @@ export default function Search(props) {
         }
     }
 
-    function handleSearch(e) {
+    async function handleSearch(e) {
         e.preventDefault()
         if (validateInput(query)) {
+            setDomainAvaliable(await isDomainAvailable(query,props.DDNSContract))
             setShowResults(true)
-            setDomainAvaliable(isDomainAvailable(query))
         }
         else {
             setInvalidInput(true)
@@ -55,6 +55,14 @@ function validateInput(query) {
 
 //Function will eventually call the etherieum contract to determine if a domain is available
 //For now just return true unless it uses the test domain alreadytaken.csu
-function isDomainAvailable(queryString) {
-    return queryString !== testDomain
+async function isDomainAvailable(queryString,DDNSContract) {
+    let domainAvailable = false
+    try{
+        domainAvailable = await DDNSContract.contract.getIPAddress(queryString)
+    }catch(e){
+        console.error("Failed to search for domain!")
+    }
+    finally{
+        return domainAvailable === ""
+    }
 }

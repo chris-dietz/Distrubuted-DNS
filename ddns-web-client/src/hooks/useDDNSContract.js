@@ -1,15 +1,23 @@
 import { useState , useEffect} from "react"
 import { ethers } from 'ethers'
+import BlockchainDNS from '../abi/contracts/BlockchainDNS.json'
 
-export function useDDNSContract(cAddress,userAccount=null){
+export function useDDNSContract(networkIndex){
     const provider = getWeb3Provider()
-    const [contractAddress,setContractAddress] = useState(cAddress)
+    const [contractAddress,setContractAddress] = useState(retrieveContractAddress(networkIndex))
     const [currentAccount,setCurrentAccount] = useState(null)
     const [accounts,setAccounts] = useState([])
+    const [contract,setContract] = useState(null)
     useEffect(() =>{
         getUserAccount(provider,setCurrentAccount,setAccounts)
     },[provider])
+
+    useEffect(() =>{
+        retrieveContract(provider,contractAddress,setContract)
+    },[contractAddress,provider])
+    
     return {
+        contract,
         contractAddress,
         setContractAddress,
         currentAccount: currentAccount,
@@ -19,6 +27,18 @@ export function useDDNSContract(cAddress,userAccount=null){
         isAccountConnected: () =>{isAccountConnected(provider)},
         requestWalletConnection: () => {requestWalletConnection(provider,setCurrentAccount,setAccounts)}
     }
+}
+
+//Retrieves network by the order it appears in the JSON file. 
+function retrieveContractAddress(networkIndex){
+    let networks = BlockchainDNS.networks
+    return networks[Object.keys(networks)[networkIndex]].address
+}
+
+async function retrieveContract(provider,contractAddress,setContract){
+    const signer = provider.getSigner()
+    let contract = await new ethers.Contract(contractAddress,BlockchainDNS.abi,signer)
+    setContract(contract)
 }
 
 function getWeb3Provider(){
