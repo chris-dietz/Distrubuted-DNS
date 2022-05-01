@@ -3,18 +3,18 @@ import { ethers } from 'ethers'
 import BlockchainDNS from '../abi/contracts/BlockchainDNS.json'
 
 export function useDDNSContract(networkIndex){
-    const provider = getWeb3Provider()
     const [contractAddress,setContractAddress] = useState(retrieveContractAddress(networkIndex))
     const [currentAccount,setCurrentAccount] = useState(null)
     const [accounts,setAccounts] = useState([])
     const [contract,setContract] = useState(null)
     useEffect(() =>{
-        getUserAccount(provider,setCurrentAccount,setAccounts)
-    },[provider])
+        if(currentAccount && ethers.utils.isAddress(currentAccount)) return
+        getUserAccount(setCurrentAccount,setAccounts)
+    },[currentAccount])
 
     useEffect(() =>{
-        retrieveContract(provider,contractAddress,setContract)
-    },[contractAddress,provider])
+        retrieveContract(contractAddress,setContract)
+    },[contractAddress])
     
     return {
         contract,
@@ -24,8 +24,11 @@ export function useDDNSContract(networkIndex){
         setCurrentAccount: setCurrentAccount,
         accounts,
         setAccounts,
-        isAccountConnected: () =>{isAccountConnected(provider)},
-        requestWalletConnection: () => {requestWalletConnection(provider,setCurrentAccount,setAccounts)}
+        isAccountConnected: () =>{isAccountConnected()},
+        requestWalletConnection: () => {
+            let provider = getWeb3Provider()
+            requestWalletConnection(provider,setCurrentAccount,setAccounts)
+        }
     }
 }
 
@@ -35,7 +38,9 @@ function retrieveContractAddress(networkIndex){
     return networks[Object.keys(networks)[networkIndex]].address
 }
 
-async function retrieveContract(provider,contractAddress,setContract){
+async function retrieveContract(contractAddress,setContract){
+    let provider = getWeb3Provider()
+    console.log("Retrieving contract...")
     const signer = await provider.getSigner()
     let contract = await new ethers.Contract(contractAddress,BlockchainDNS.abi,signer)
     setContract(contract)
@@ -50,7 +55,8 @@ function getWeb3Provider(){
         return new ethers.providers.JsonRpcProvider(gancheUrl)
 }
 
-async function isAccountConnected(provider) {
+async function isAccountConnected() {
+    let provider = getWeb3Provider()
     if(!usingBrowserWallet()){
         return false
     }
@@ -58,7 +64,9 @@ async function isAccountConnected(provider) {
     return accounts.length > 0;
 }
 
-async function getUserAccount(provider,setAccount,setAccounts){
+async function getUserAccount(setAccount,setAccounts){
+    let provider = getWeb3Provider()
+    console.log("Getting user account...")
     let accountConnected = await isAccountConnected(provider)
     if(accountConnected){
         requestWalletConnection(provider,setAccount,setAccounts)
