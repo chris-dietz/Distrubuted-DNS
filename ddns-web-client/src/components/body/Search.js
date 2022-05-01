@@ -9,6 +9,7 @@ export default function Search(props) {
     const [query, setQuery] = useState("")
     const [domainAvailable, setDomainAvaliable] = useState(false)
     const [invalidInput, setInvalidInput] = useState(false)
+    const [ipAddress,setipAddress] = useState("")
 
     return (
         <>
@@ -21,7 +22,7 @@ export default function Search(props) {
                     <FormFeedback invalid="true" >{invalidDomainErrorMessage}</FormFeedback>
                 </FormGroup>
             </Form>
-            {showResults ? <ResultsPage DDNSContract={props.DDNSContract} query={query} isDomainAvailable={domainAvailable} /> : null}
+            {showResults ? <ResultsPage DDNSContract={props.DDNSContract} query={query} isDomainAvailable={domainAvailable}  ipAddress={ipAddress}/> : null}
         </>
     )
 
@@ -38,7 +39,9 @@ export default function Search(props) {
     async function handleSearch(e) {
         e.preventDefault()
         if (validateInput(query)) {
-            setDomainAvaliable(await isDomainAvailable(query,props.DDNSContract))
+            let ip = await lookupDomain(query,props.DDNSContract)
+            setDomainAvaliable(ip === "")
+            setipAddress(ip)
             setShowResults(true)
         }
         else {
@@ -53,16 +56,16 @@ function validateInput(query) {
     return registrationFormValidationRegex.test(query)
 }
 
-//Function will eventually call the etherieum contract to determine if a domain is available
-//For now just return true unless it uses the test domain alreadytaken.csu
-async function isDomainAvailable(queryString,DDNSContract) {
-    let domainAvailable = false
+
+
+async function lookupDomain(queryString,DDNSContract) {
+    let ipAddress = ""
     try{
-        domainAvailable = await DDNSContract.contract.getIPAddress(queryString)
+        ipAddress = await DDNSContract.contract.getIPAddress(queryString)
     }catch(e){
         console.error("Failed to search for domain! " + e)
     }
     finally{
-        return domainAvailable === ""
+        return ipAddress
     }
 }
