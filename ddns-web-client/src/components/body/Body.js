@@ -13,7 +13,7 @@ export default function Body(props) {
 function RenderPageBody(listOfOwnedDomains, setOwnedDomains, DDNSContract) {
   switch (window.location.pathname) {
     case "/manage/":
-      getOwnedDomains(listOfOwnedDomains, setOwnedDomains, DDNSContract);
+      getOwnedDomains(setOwnedDomains, DDNSContract);
       return (
         <div>
           {listOfOwnedDomains.map(({ IPAddress, domain_name }) => (
@@ -37,7 +37,7 @@ function RenderPageBody(listOfOwnedDomains, setOwnedDomains, DDNSContract) {
   }
 }
 
-async function getOwnedDomains(listOfOwnedDomains, setOwnedDomains, DDNSContract) {
+async function getOwnedDomains(setOwnedDomains, DDNSContract) {
   var DDNSContractMyDomains = await DDNSContract.contract.getMyRegisteredDomains();
   setOwnedDomains(DDNSContractMyDomains);
 }
