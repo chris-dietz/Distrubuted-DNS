@@ -55,7 +55,6 @@ export default function DomainRegisterationModal(props){
   }
 }
 
-//Stub to handle domain registeration
 async function registerDomain(DDNSContract,domain,ipAddress){
     try{
         await DDNSContract.contract.addAddress(domain,ipAddress)
