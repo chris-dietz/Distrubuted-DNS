@@ -45,8 +45,9 @@ export default function DomainRegisterationModal(props){
   async function handleFormSubmit(e){
     e.preventDefault()
     if(validateInput(ipAddress)){
-        await registerDomain(props.DDNSContract,props.domain,ipAddress)
-        handleClose()
+        let domainRegistered = await registerDomain(props.DDNSContract,props.domain,ipAddress)
+        if(domainRegistered)
+            handleClose()
     }
     else{
         setInvalidInput(true)
@@ -56,8 +57,13 @@ export default function DomainRegisterationModal(props){
 
 //Stub to handle domain registeration
 async function registerDomain(DDNSContract,domain,ipAddress){
-    console.log(DDNSContract)
-    await DDNSContract.contract.addAddress(domain,ipAddress)
+    try{
+        await DDNSContract.contract.addAddress(domain,ipAddress)
+    }catch(e){
+        console.warn("User rejected domain registration =(")
+        return false
+    }
+    return true
 }
 
 function validateInput(input){
