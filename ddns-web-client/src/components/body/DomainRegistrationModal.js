@@ -42,10 +42,10 @@ export default function DomainRegisterationModal(props){
       setInvalidInput(false)
   }
 
-  function handleFormSubmit(e){
+  async function handleFormSubmit(e){
     e.preventDefault()
     if(validateInput(ipAddress)){
-        registerDomain(props.DDNSContract,props.domainName,ipAddress)
+        await registerDomain(props.DDNSContract,props.domain,ipAddress)
         handleClose()
     }
     else{
@@ -55,8 +55,9 @@ export default function DomainRegisterationModal(props){
 }
 
 //Stub to handle domain registeration
-function registerDomain(DDNSContract,domainName,ipAddress){
-
+async function registerDomain(DDNSContract,domain,ipAddress){
+    console.log(DDNSContract)
+    await DDNSContract.contract.addAddress(domain,ipAddress)
 }
 
 function validateInput(input){
