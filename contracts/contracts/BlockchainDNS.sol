@@ -17,6 +17,10 @@ contract BlockchainDNS {
         domains[_domainName] = domain;
         registered_domains[msg.sender].push(domain);
     }
+
+    function getDomainOwner(string memory domainName) public view returns(address){
+        return domains[domainName].registrar;
+    }
     
     function getIPAddress(string memory domainName) public view returns(string memory){
         return domains[domainName].IPAddress;
