@@ -2,6 +2,7 @@
 import {Card, CardTitle} from 'reactstrap'
 import DomainRegisterationModal from './DomainRegistrationModal'
 import { ipAddressPlaceholderText } from './Body-Constants'
+import DomainInformation from './DomainInformation'
 export default function ResultsPage(props){
     let query = props.query
     let isDomainAvailable = props.isDomainAvailable
@@ -14,7 +15,7 @@ export default function ResultsPage(props){
             {
                 isDomainAvailable? 
                 <DomainRegisterationModal DDNSContract={props.DDNSContract} domain={query} placeholder={ipAddressPlaceholderText}></DomainRegisterationModal>
-                :null
+                :<DomainInformation DDNSContract={props.DDNSContract} domain={query} ipAddress={props.ipAddress}></DomainInformation>
             }
             
         </Card>
