@@ -21,7 +21,7 @@ export default function Search(props) {
                     <FormFeedback invalid="true" >{invalidDomainErrorMessage}</FormFeedback>
                 </FormGroup>
             </Form>
-            {showResults ? <ResultsPage query={query} isDomainAvailable={domainAvailable} /> : null}
+            {showResults ? <ResultsPage DDNSContract={props.DDNSContract} query={query} isDomainAvailable={domainAvailable} /> : null}
         </>
     )
 

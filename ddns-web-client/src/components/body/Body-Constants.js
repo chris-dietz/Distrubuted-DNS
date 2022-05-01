@@ -4,3 +4,6 @@ export const searchRegisterButtonText = "Register"
 export const searchLookupButtonText = "Search"
 export const registrationFormValidationRegex =new RegExp(/^[a-zA-Z0-9]+.csu$/)
 export const invalidDomainErrorMessage = "Invalid Domain! (Domains must end in .csu)"
+export const ipAddressPlaceholderText = "Enter an IP address for your domain"
+export const invalidIPErrorMessage = "Invalid IP! (IP addresses look like 127.0.0.1)"
+export const ipValidationRegex = new RegExp(/\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b/) //From https://stackoverflow.com/questions/5284147/validating-ipv4-addresses-with-regexp
