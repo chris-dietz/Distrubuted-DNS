@@ -1,5 +1,14 @@
+<style>
+img[alt=screenshot] { width: 300px; }
+</style>
+
 # DDDS Web3 Web App
 React application for interacting with the solidity smart contract using a Web3 browser.
+
+![screenshot](screenshots/Screenshot%202022-05-03%20102209.jpg) 
+![screenshot](screenshots/Screenshot%202022-05-03%20102416.jpg)
+![screenshot](screenshots/Screenshot%202022-05-03%20102448.jpg)
+
 ## Available Scripts
 
 In the project directory, you can run:
