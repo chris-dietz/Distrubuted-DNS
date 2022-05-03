@@ -1,6 +1,4 @@
-<style>
-img[alt=screenshot] { width: 300px; }
-</style>
+
 
 # DDDS Web3 Web App
 React application for interacting with the solidity smart contract using a Web3 browser.
